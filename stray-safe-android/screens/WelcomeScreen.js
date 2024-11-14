@@ -65,13 +65,13 @@ export default function WelcomeScreen() {
       <LinearGradient
         colors={['transparent', 'rgba(0, 0, 0, 0.8)']}
         start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
+        end={{ x: 0.5, y: 0.9 }}
         style={styles.gradientOverlay}
       />
 
       {/* Overlay containing text and buttons */}
       <View style={styles.overlayContent}>
-        <Text style={styles.title}>Bringing Nike Members the best products, inspiration and stories in sport.</Text>
+        <Text style={styles.title}>Together, we can make every street a kinder place for stray animals.</Text>
 
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: height * 0.25, // Covers the bottom 1/4 of the screen
+    height: height * 1.2, 
   },
   overlayContent: {
     position: 'absolute',
