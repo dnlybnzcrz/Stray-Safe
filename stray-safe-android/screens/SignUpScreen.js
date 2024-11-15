@@ -9,10 +9,10 @@ import {
   ImageBackground,
 } from 'react-native';
 import axios from 'axios';
-import api from '../api'; // Import the Axios instance
 
 export default function SignUpScreen({ navigation }) {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -21,16 +21,16 @@ export default function SignUpScreen({ navigation }) {
     try {
       const requestData = {
         username: username,
-        email: "qdycruz@tip.edu.ph",
+        email: email,
         password: password,
         contact_number: phoneNumber,
       }
-  
-      console.log("Sending sign up request..."); // Debug statement
-      const response = await axios.post("http://10.0.2.2:3000/api/user/signup", requestData);
-      console.log("Response received:", response); // Debug statement
-  
-      navigation.goBack(); // Redirect to login if successful
+
+      const response = await axios.post(`${process.env.EXPO_PUBLIC_LOCAL_API_URL}/api/user/signup`, requestData);
+
+      if (response.data.message == "User created successfully") { 
+        navigation.goBack();
+      }
     } catch (error) {
       console.error('Error during sign up:', error.response ? error.response.data : error);
     }
@@ -60,6 +60,13 @@ export default function SignUpScreen({ navigation }) {
             placeholderTextColor="#999"
             value={username}
             onChangeText={setUsername}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#999"
+            value={email}
+            onChangeText={setEmail}
           />
           <TextInput
             style={styles.input}

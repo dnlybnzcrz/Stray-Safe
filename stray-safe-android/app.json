@@ -3,6 +3,9 @@
     "name": "stray-safe",
     "slug": "stray-safe",
     "version": "1.0.0",
-    "scheme": "straysafe"  
+    "scheme": "straysafe",
+    "android": {
+      "package": "com.anonymous.straysafe"
+    }
   }
 }

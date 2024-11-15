@@ -9,29 +9,40 @@ import {
   ImageBackground,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native'; 
-import { theme } from '../theme'; 
+import { useNavigation } from '@react-navigation/native';
+import { theme } from '../theme';
+
+import axios from 'axios';
 
 export default function LoginScreen({ onLogin }) {
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const navigation = useNavigation(); 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
-  const handleLogin = () => {
-    console.log('Phone number entered:', phoneNumber);
-    onLogin(); 
+  const handleLogin = async () => {
+    const requestData = {
+      username: username,
+      password: password
+    }
+
+    const response = await axios.post(`${process.env.EXPO_PUBLIC_LOCAL_API_URL}/api/user/login`, requestData);
+
+    if (response.data.message == "Login successful") {
+      onLogin();
+    }
   };
 
   return (
     <ImageBackground
-      source={require('../assets/wallpaper3.jpg')} 
+      source={require('../assets/wallpaper3.jpg')}
       style={styles.backgroundImage}
       resizeMode="cover"
     >
       <View style={styles.overlay} />
       <View style={styles.container}>
-        
+
         <Image
-          source={require('../assets/LOGO.png')} 
+          source={require('../assets/LOGO.png')}
           style={styles.logo}
         />
 
@@ -41,18 +52,26 @@ export default function LoginScreen({ onLogin }) {
 
           {/* Illustration */}
           <Image
-            source={require('../assets/illustration.png')} 
+            source={require('../assets/illustration.png')}
             style={styles.illustration}
           />
 
           {/* Input */}
           <TextInput
             style={styles.input}
-            placeholder="Phone number"
+            placeholder="Username"
             placeholderTextColor={theme.colors.textSecondary}
-            keyboardType="phone-pad"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
+            value={username}
+            onChangeText={setUsername}
+          />
+
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor={theme.colors.textSecondary}
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
           />
 
           {/* Login Button */}
@@ -101,7 +120,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(250, 244, 235, 0.7)', 
+    backgroundColor: 'rgba(250, 244, 235, 0.7)',
   },
   container: {
     flex: 1,
@@ -110,10 +129,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   logo: {
-    width: 500, 
-    height: 70, 
+    width: 500,
+    height: 70,
     resizeMode: 'contain',
-    marginBottom: 20, 
+    marginBottom: 20,
   },
   card: {
     width: '85%',
@@ -143,7 +162,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     borderRadius: 10,
-    backgroundColor: '#F2D8B1', 
+    backgroundColor: '#F2D8B1',
     paddingHorizontal: 15,
     fontSize: 16,
     color: theme.colors.textPrimary,
@@ -151,7 +170,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     width: '100%',
-    backgroundColor: theme.colors.primary, 
+    backgroundColor: theme.colors.primary,
     paddingVertical: 15,
     borderRadius: 10,
     alignItems: 'center',
@@ -183,6 +202,6 @@ const styles = StyleSheet.create({
   signUpLink: {
     fontWeight: 'bold',
     textDecorationLine: 'underline',
-    color: theme.colors.primary, 
+    color: theme.colors.primary,
   },
 });
