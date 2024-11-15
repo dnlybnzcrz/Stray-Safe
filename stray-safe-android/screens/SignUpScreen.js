@@ -8,6 +8,7 @@ import {
   Image,
   ImageBackground,
 } from 'react-native';
+
 import axios from 'axios';
 
 export default function SignUpScreen({ navigation }) {
@@ -28,7 +29,7 @@ export default function SignUpScreen({ navigation }) {
 
       const response = await axios.post(`${process.env.EXPO_PUBLIC_LOCAL_API_URL}/api/user/signup`, requestData);
 
-      if (response.data.message == "User created successfully") { 
+      if (response.data.message == "User created successfully") {
         navigation.goBack();
       }
     } catch (error) {

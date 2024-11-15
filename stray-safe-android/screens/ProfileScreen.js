@@ -1,8 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, Touchable, TouchableOpacity } from 'react-native';
 import { theme } from '../theme';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ProfileScreen() {
+  const navigation = useNavigation()
+
   return (
     <ImageBackground
       source={require('../assets/wallpaper3.jpg')}
@@ -43,5 +46,18 @@ const styles = StyleSheet.create({
   title: {
     ...theme.fonts.titleFont,
     color: theme.colors.primary, // Coral color
+  },
+  loginButton: {
+    width: '100%',
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  loginButtonText: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });

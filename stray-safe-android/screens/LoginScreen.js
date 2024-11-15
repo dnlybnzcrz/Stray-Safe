@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme';
 
 import axios from 'axios';
+import store from '../hooks/storeCredentials';
 
 export default function LoginScreen({ onLogin }) {
   const [username, setUsername] = useState('');
@@ -28,6 +29,12 @@ export default function LoginScreen({ onLogin }) {
     const response = await axios.post(`${process.env.EXPO_PUBLIC_LOCAL_API_URL}/api/user/login`, requestData);
 
     if (response.data.message == "Login successful") {
+      const user = {
+        isLoggedIn: true,
+        userData: response.data.user
+      }
+
+      store.add('user', JSON.stringify(user));
       onLogin();
     }
   };

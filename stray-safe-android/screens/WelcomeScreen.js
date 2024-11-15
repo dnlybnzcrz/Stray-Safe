@@ -34,6 +34,11 @@ export default function WelcomeScreen() {
     }
   }, [currentIndex]);
 
+  // Check if user is logged in
+  useEffect(() => {
+    
+  }, [])
+
   const renderItem = ({ item }) => (
     <Image source={item} style={styles.image} />
   );

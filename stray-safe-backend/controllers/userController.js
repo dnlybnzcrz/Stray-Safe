@@ -4,8 +4,6 @@ const signup = async (req, res) => {
   const database = req.database;
   const { username, email, contact_number, password, } = req.body;
 
-  console.log(req.body)
-
   if (!username || !email || !contact_number || !password) {
     res.status(400).send('Invalid Request');
     return;
@@ -22,7 +20,7 @@ const signup = async (req, res) => {
         res.status(500.).send('Internal Server Error');
       } else {
         res.send({
-          message: 'User created successfully',
+          message: 'User created successfully'
         });
       }
 
@@ -38,8 +36,6 @@ const login = async (req, res) => {
     return;
   }
 
-  console.log(req.body)
-
   database.query(`
     SELECT * 
     FROM user 
@@ -50,18 +46,21 @@ const login = async (req, res) => {
       if (error) {
         console.error('Error executing MySQL query', error);
         res.status(500).send('Internal Server Error');
-        console.log(1)
       }
 
       if (results.length == 0) {
         res.send({
           message: 'Invalid username or password',
         });
-
-        console.log(2)
       } else {
+        const user = results[0];
+        delete user.password;
+        delete user.created_at;
+        delete user.updated_at;
+
         res.send({
           message: 'Login successful',
+          user: user
         });
       }
     });

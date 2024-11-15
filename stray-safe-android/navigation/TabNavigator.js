@@ -20,6 +20,7 @@ import DetailsScreen from '../screens/DetailsScreen';
 import ReportPetScreen from '../screens/ReportPetScreen'; // Import ReportPetScreen
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme'; // Import the theme
+import store from '../hooks/storeCredentials';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
