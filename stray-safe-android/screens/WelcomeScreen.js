@@ -9,6 +9,12 @@ const images = [
   require('../assets/welcome1.png'), // Replace with your actual image paths
   require('../assets/welcome2.png'),
   require('../assets/welcome3.png'),
+  require('../assets/welcome4.jpg'),
+  require('../assets/welcome5.jpg'),
+  require('../assets/welcome6.jpg'),
+  require('../assets/welcome7.jpg'),
+  require('../assets/welcome8.jpg'),
+  require('../assets/welcome9.jpg')
 ];
 
 export default function WelcomeScreen() {
@@ -105,7 +111,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: height * 0.58, // Covers the bottom 1/4 of the screen
+    height: height * 0.6, // Covers the bottom 1/4 of the screen
   },
   overlayContent: {
     position: 'absolute',

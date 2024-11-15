@@ -10,7 +10,7 @@ const signup = async (req, res) => {
   }
 
   database.query(`
-        INSERT INTO user (username, password, email, contact_no, created_at, updated_at) 
+        INSERT INTO users (username, password, email, contact_no, created_at, updated_at) 
         VALUES (?, ?, ?, ?, ?, ? )`,
     [username, password, email, contact_number, new Date(), new Date()],
     (error, results) => {
@@ -38,7 +38,7 @@ const login = async (req, res) => {
 
   database.query(`
     SELECT * 
-    FROM user 
+    FROM users 
     WHERE username = ? 
       AND password = ?`,
     [username, password],
