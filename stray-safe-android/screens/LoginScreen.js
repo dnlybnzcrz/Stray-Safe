@@ -15,10 +15,9 @@ import { theme } from '../theme';
 import axios from 'axios';
 import store from '../hooks/storeCredentials';
 
-export default function LoginScreen({ onLogin }) {
+export default function LoginScreen({ navigation, route }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigation = useNavigation();
 
   const handleLogin = async () => {
     const requestData = {
@@ -35,7 +34,7 @@ export default function LoginScreen({ onLogin }) {
       }
 
       store.add('user', JSON.stringify(user));
-      onLogin();
+      navigation.navigate('FeedScreen');
     }
   };
 

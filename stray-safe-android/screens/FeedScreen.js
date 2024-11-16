@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   View,
   Text,
@@ -7,11 +8,10 @@ import {
   TouchableOpacity,
   FlatList,
   Dimensions,
-  TextInput,
+  TextInput
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme'; // Import the theme object
 
 const { width } = Dimensions.get('window');
@@ -73,8 +73,7 @@ const pets = [
   },
 ];
 
-export default function FeedScreen() {
-  const navigation = useNavigation();
+export default function FeedScreen({ navigation}) {
   const [likes, setLikes] = useState(pets.map((pet) => pet.likes));
   const [likedStatus, setLikedStatus] = useState(pets.map(() => false));
   const [visibleComments, setVisibleComments] = useState(null);
@@ -116,7 +115,7 @@ export default function FeedScreen() {
   };
 
   const handleImageClick = (pet) => {
-    navigation.navigate('Details', {
+    navigation.navigate('DetailsScreen', {
       image: pet.image,
       location: pet.location,
       likes: pet.likes,
@@ -131,7 +130,7 @@ export default function FeedScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {/* Tabs for selecting categories */}
       <View style={styles.tabContainer}>
         <TouchableOpacity
@@ -279,7 +278,7 @@ export default function FeedScreen() {
           <Text style={styles.reportButtonText}>Press Here To Report Pet</Text>
         </TouchableOpacity>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 }
 
