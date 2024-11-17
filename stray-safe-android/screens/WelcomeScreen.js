@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { View, Text, TouchableOpacity, StyleSheet, Image, FlatList, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,13 +14,13 @@ const images = [
   require('../assets/welcome6.jpg'),
   require('../assets/welcome7.jpg'),
   require('../assets/welcome8.jpg'),
-  require('../assets/welcome9.jpg')
+  require('../assets/welcome10.png')
 ];
 
-export default function WelcomeScreen({ navigation, route }) {
+export default function WelcomeScreen() {
+  const navigation = useNavigation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const flatListRef = useRef(null);
-  const ITEM_WIDTH = Dimensions.get('window').width;
 
   // Auto-slide effect
   useEffect(() => {
@@ -43,7 +42,7 @@ export default function WelcomeScreen({ navigation, route }) {
 
   // Check if user is logged in
   useEffect(() => {
-
+    
   }, [])
 
   const renderItem = ({ item }) => (
@@ -51,7 +50,7 @@ export default function WelcomeScreen({ navigation, route }) {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <FlatList
         data={images}
         renderItem={renderItem}
@@ -61,9 +60,6 @@ export default function WelcomeScreen({ navigation, route }) {
         showsHorizontalScrollIndicator={false}
         ref={flatListRef}
         style={styles.imageSlider}
-        getItemLayout={(data, index) => (
-          { length: ITEM_WIDTH, offset: ITEM_WIDTH * index, index }
-        )}
       />
 
       {/* Ombre gradient overlay for the bottom 1/4 of the screen */}
@@ -94,7 +90,7 @@ export default function WelcomeScreen({ navigation, route }) {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

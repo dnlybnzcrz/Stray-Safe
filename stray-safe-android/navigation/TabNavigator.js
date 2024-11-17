@@ -15,12 +15,12 @@ import FeedScreen from '../screens/FeedScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import MapScreen from '../screens/MapScreen';
-import DashboardScreen from '../screens/DashboardScreen'; // Ensure you import your Dashboard screen
+import DashboardScreen from '../screens/DashboardScreen';
 import DetailsScreen from '../screens/DetailsScreen';
-import ReportPetScreen from '../screens/ReportPetScreen'; // Import ReportPetScreen
+import ReportPetScreen from '../screens/ReportPetScreen';
+import MapPickerScreen from '../screens/MapPickerScreen'; // Import the MapPickerScreen
 import { Ionicons } from '@expo/vector-icons';
-import { theme } from '../theme'; // Import the theme
-import store from '../hooks/storeCredentials';
+import { theme } from '../theme';
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
@@ -68,7 +68,6 @@ function CustomHeader() {
                 autoFocus
               />
               <TouchableOpacity onPress={handleSearchToggle} style={styles.cancelButton}>
-                {/* Make sure the text is wrapped in a <Text> component */}
                 <Text style={styles.cancelText}>Cancel</Text>
               </TouchableOpacity>
             </View>
@@ -90,7 +89,6 @@ function CustomHeader() {
   );
 }
 
-
 function FeedStackNavigator() {
   return (
     <Stack.Navigator>
@@ -104,12 +102,67 @@ function FeedStackNavigator() {
       <Stack.Screen
         name="Details"
         component={DetailsScreen}
-        options={{ title: 'Details' }}
+        options={{
+          header: () => <CustomHeader />,
+        }}
       />
       <Stack.Screen
         name="ReportPet"
         component={ReportPetScreen}
-        options={{ title: 'Report Pet' }}
+        options={{
+          header: () => <CustomHeader />,
+        }}
+      />
+      <Stack.Screen
+        name="MapPickerScreen"
+        component={MapPickerScreen}
+        options={{
+          title: 'Pick a Location',
+          headerStyle: { backgroundColor: theme.colors.primary },
+          headerTintColor: '#FFF',
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function NotificationsStackNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          header: () => <CustomHeader />,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function MapStackNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Map"
+        component={MapScreen}
+        options={{
+          header: () => <CustomHeader />,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function DashboardStackNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Dashboard"
+        component={DashboardScreen}
+        options={{
+          header: () => <CustomHeader />,
+        }}
       />
     </Stack.Navigator>
   );
@@ -158,26 +211,26 @@ function TabNavigator() {
       />
       <Tab.Screen
         name="Map"
-        component={MapScreen}
+        component={MapStackNavigator}
         options={{
           tabBarLabel: 'Map',
-          headerTitle: 'Map of Stray Animals',
+          headerShown: false,
         }}
       />
       <Tab.Screen
         name="Dashboard"
-        component={DashboardScreen}
+        component={DashboardStackNavigator}
         options={{
           tabBarLabel: 'Dashboard',
-          headerTitle: 'Dashboard',
+          headerShown: false,
         }}
       />
       <Tab.Screen
         name="Notifications"
-        component={NotificationsScreen}
+        component={NotificationsStackNavigator}
         options={{
           tabBarLabel: 'Notifications',
-          headerTitle: 'Notifications',
+          headerShown: false,
         }}
       />
     </Tab.Navigator>
@@ -208,6 +261,7 @@ export default function DrawerNavigator() {
         component={ProfileScreen}
         options={{
           drawerLabel: 'Profile',
+          header: () => <CustomHeader />,
         }}
       />
     </Drawer.Navigator>
@@ -231,7 +285,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 5, // Added padding for better visibility
+    padding: 5,
   },
   profileImage: {
     width: 40,

@@ -1,105 +1,35 @@
 import React, { useState } from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
+  Modal,
   FlatList,
   Dimensions,
-  TextInput
+  Image,
+  TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { theme } from '../theme'; // Import the theme object
+import { useNavigation } from '@react-navigation/native';
+import { usePostContext } from '../context/PostContext'; // Import PostContext
+import { theme } from '../theme';
 
 const { width } = Dimensions.get('window');
 
-const pets = [
-  {
-    id: '1',
-    image: require('../assets/stray1.jpg'),
-    location: 'Scout Limbaga St.',
-    likes: 12,
-    comments: ['I saw this one too!'],
-    shares: 1,
-    type: 'missing',
-  },
-  {
-    id: '2',
-    image: require('../assets/stray2.jpg'),
-    location: 'K-1st St.',
-    likes: 5,
-    comments: ['Cute dog!'],
-    shares: 0,
-    type: 'found',
-  },
-  {
-    id: '3',
-    image: require('../assets/stray3.jpg'),
-    location: 'Sct. Delgado St.',
-    likes: 8,
-    comments: ['Hope it finds a home.'],
-    shares: 3,
-    type: 'forAdoption',
-  },
-  {
-    id: '4',
-    image: require('../assets/stray4.jpg'),
-    location: 'K-2nd St.',
-    likes: 10,
-    comments: ['Hope it finds a home.'],
-    shares: 3,
-    type: 'missing',
-  },
-  {
-    id: '5',
-    image: require('../assets/stray5.jpg'),
-    location: 'Sct. Fernandez St.',
-    likes: 7,
-    comments: ['Beautiful dog!'],
-    shares: 2,
-    type: 'found',
-  },
-  {
-    id: '6',
-    image: require('../assets/adopt1.png'),
-    location: 'Sct. Gandia St.',
-    likes: 15,
-    comments: ['Adopt, don’t shop!'],
-    shares: 5,
-    type: 'forAdoption',
-  },
-];
-
-export default function FeedScreen({ navigation}) {
-  const [likes, setLikes] = useState(pets.map((pet) => pet.likes));
-  const [likedStatus, setLikedStatus] = useState(pets.map(() => false));
+export default function FeedScreen() {
+  const { posts } = usePostContext(); // Access posts from the context
+  const navigation = useNavigation();
+  const [selectedTab, setSelectedTab] = useState('missing');
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [visibleComments, setVisibleComments] = useState(null);
   const [newComment, setNewComment] = useState('');
-  const [commentsData, setCommentsData] = useState(
-    pets.map((pet) => pet.comments)
+
+  // Filter posts based on the selected tab
+  const filteredPosts = posts.filter(
+    (post) => post.type.toLowerCase() === selectedTab.toLowerCase()
   );
-  const [selectedTab, setSelectedTab] = useState('missing');
-
-  const filteredPets = pets.filter((pet) => pet.type === selectedTab);
-
-  const handleLikeToggle = (index) => {
-    const newLikes = [...likes];
-    const newLikedStatus = [...likedStatus];
-
-    if (newLikedStatus[index]) {
-      newLikes[index] -= 1;
-      newLikedStatus[index] = false;
-    } else {
-      newLikes[index] += 1;
-      newLikedStatus[index] = true;
-    }
-
-    setLikes(newLikes);
-    setLikedStatus(newLikedStatus);
-  };
 
   const handleCommentToggle = (index) => {
     setVisibleComments(visibleComments === index ? null : index);
@@ -107,30 +37,22 @@ export default function FeedScreen({ navigation}) {
 
   const handleAddComment = (index) => {
     if (newComment.trim()) {
-      const updatedComments = [...commentsData];
-      updatedComments[index] = [...updatedComments[index], newComment];
-      setCommentsData(updatedComments);
+      posts[index].comments.push(newComment);
       setNewComment('');
     }
   };
 
-  const handleImageClick = (pet) => {
-    navigation.navigate('DetailsScreen', {
-      image: pet.image,
-      location: pet.location,
-      likes: pet.likes,
-      comments: pet.comments,
-      shares: pet.shares,
-    });
+  const handleReportPetPress = () => {
+    setIsModalVisible(true);
   };
 
-  const handleReportPetPress = () => {
-    console.log('Report Pet button pressed');
-    navigation.navigate('ReportPet'); // Assuming you have a navigation route for reporting
+  const handleOptionSelect = (type) => {
+    setIsModalVisible(false);
+    navigation.navigate('ReportPet', { type });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Tabs for selecting categories */}
       <View style={styles.tabContainer}>
         <TouchableOpacity
@@ -179,36 +101,92 @@ export default function FeedScreen({ navigation}) {
         </TouchableOpacity>
       </View>
 
+      {/* Modal for selecting post type */}
+      <Modal
+        transparent={true}
+        animationType="fade"
+        visible={isModalVisible}
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Select Post Type</Text>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => handleOptionSelect('missing')}
+            >
+              <Ionicons
+                name="alert-circle-outline"
+                size={24}
+                color={theme.colors.primary}
+              />
+              <Text style={styles.modalButtonText}>Missing</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => handleOptionSelect('found')}
+            >
+              <Ionicons name="paw-outline" size={24} color={theme.colors.primary} />
+              <Text style={styles.modalButtonText}>Found</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={() => handleOptionSelect('forAdoption')}
+            >
+              <Ionicons name="heart-outline" size={24} color={theme.colors.primary} />
+              <Text style={styles.modalButtonText}>For Adoption</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => setIsModalVisible(false)}
+            >
+              <Text style={styles.cancelButtonText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       <LinearGradient
         colors={[theme.colors.background, theme.colors.lightBlueAccent]}
         style={styles.gradientBackground}
       >
-        {/* List of pets based on the selected tab */}
+        {/* List of posts based on the selected tab */}
         <FlatList
-          data={filteredPets}
+          data={filteredPosts}
           renderItem={({ item, index }) => (
             <View style={styles.postContainer}>
-              <TouchableOpacity onPress={() => handleImageClick(item)}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('Details', {
+                    image: item.image,
+                    location: item.location?.address || 'No location provided',
+                    likes: item.likes,
+                    comments: item.comments,
+                    shares: item.shares,
+                    type: item.type,
+                    contactNumber: item.contactNumber || 'No contact number provided',
+                    postContent: item.postContent || 'No content provided.',
+                  })
+                }
+              >
                 <View style={styles.petItem}>
-                  <Image source={item.image} style={styles.petImage} />
+                  {item.image && (
+                    <Image source={item.image} style={styles.petImage} />
+                  )}
                   <Text style={styles.locationBadge}>{item.location}</Text>
                 </View>
               </TouchableOpacity>
               <View style={styles.interactionContainer}>
                 <TouchableOpacity
                   style={styles.interactionButton}
-                  onPress={() => handleLikeToggle(index)}
+                  onPress={() => alert('Liked!')} // Placeholder for like functionality
                 >
                   <Ionicons
-                    name={likedStatus[index] ? 'heart' : 'heart-outline'}
+                    name="heart-outline"
                     size={20}
-                    color={
-                      likedStatus[index]
-                        ? theme.colors.orangeAccent
-                        : theme.colors.textPrimary
-                    }
+                    color={theme.colors.textPrimary}
                   />
-                  <Text style={styles.interactionText}>{likes[index]}</Text>
+                  <Text style={styles.interactionText}>{item.likes}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.interactionButton}
@@ -220,7 +198,7 @@ export default function FeedScreen({ navigation}) {
                     color={theme.colors.textPrimary}
                   />
                   <Text style={styles.interactionText}>
-                    {commentsData[index].length}
+                    {item.comments.length}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.interactionButton}>
@@ -235,7 +213,7 @@ export default function FeedScreen({ navigation}) {
 
               {visibleComments === index && (
                 <View style={styles.commentsSection}>
-                  {commentsData[index].map((comment, commentIndex) => (
+                  {item.comments.map((comment, commentIndex) => (
                     <Text key={commentIndex} style={styles.commentText}>
                       • {comment}
                     </Text>
@@ -264,7 +242,7 @@ export default function FeedScreen({ navigation}) {
           contentContainerStyle={styles.petListVertical}
         />
 
-        {/* Restyled Report Pet Button */}
+        {/* "Press Here to Report Pet" Button */}
         <TouchableOpacity
           style={styles.reportButton}
           onPress={handleReportPetPress}
@@ -278,7 +256,7 @@ export default function FeedScreen({ navigation}) {
           <Text style={styles.reportButtonText}>Press Here To Report Pet</Text>
         </TouchableOpacity>
       </LinearGradient>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -296,7 +274,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-    position: 'relative',
   },
   tabText: {
     color: '#FFF',
@@ -313,7 +290,7 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     bottom: -10,
-    borderRadius: 60,
+    borderRadius: 10,
   },
   gradientBackground: {
     flex: 1,
@@ -328,13 +305,8 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     padding: 10,
     elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
   },
   petItem: {
-    marginBottom: 10,
     borderRadius: 10,
     overflow: 'hidden',
     position: 'relative',
@@ -419,5 +391,47 @@ const styles = StyleSheet.create({
   },
   buttonIcon: {
     marginRight: 5,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    width: '80%',
+    backgroundColor: '#FFF',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: theme.colors.textPrimary,
+  },
+  modalButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+    padding: 10,
+    width: '100%',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.background,
+    borderRadius: 10,
+    elevation: 3,
+  },
+  modalButtonText: {
+    fontSize: 16,
+    marginLeft: 10,
+    color: theme.colors.textPrimary,
+  },
+  cancelButton: {
+    marginTop: 20,
+  },
+  cancelButtonText: {
+    fontSize: 16,
+    color: theme.colors.textSecondary,
   },
 });

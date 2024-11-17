@@ -1,32 +1,67 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { SafeAreaView, ActivityIndicator, View } from 'react-native';
-import Welcome from './screens/Welcome';
+import DrawerNavigator from './navigation/TabNavigator';
 import WelcomeScreen from './screens/WelcomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignUpScreen';
-import FeedScreen from './screens/FeedScreen';
-import MapScreen from './screens/MapScreen';
-import DetailsScreen from './screens/DetailsScreen';
-import NotificationsScreen from './screens/NotificationsScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import { PostProvider } from './context/PostContext'; // Import the PostProvider
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setIsLoggedIn(true); // Simulate successful login
+    }, 2000);
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#FF6F61" />
+      </View>
+    );
+  }
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="WelcomeScreen">
-        <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} screenOptions={{ headerShown: false }}/>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} screenOptions={{ headerShown: false }}/>
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} screenOptions={{ headerShown: false }}/>
-        <Stack.Screen name="FeedScreen" component={FeedScreen} />
-        <Stack.Screen name="MapScreen" component={MapScreen} />
-        <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
-        <Stack.Screen name="NotificationsScreen" component={NotificationsScreen} />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <PostProvider>
+      {/* Wrap the entire app in the PostProvider */}
+      <NavigationContainer>
+        {isLoggedIn ? (
+          <DrawerNavigator />
+        ) : (
+          <Stack.Navigator initialRouteName="WelcomeScreen">
+            <Stack.Screen
+              name="WelcomeScreen"
+              component={WelcomeScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="LoginScreen" options={{ headerShown: false }}>
+              {(props) => <LoginScreen {...props} onLogin={handleLogin} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name="SignUpScreen"
+              component={SignUpScreen}
+              options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
+    </PostProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

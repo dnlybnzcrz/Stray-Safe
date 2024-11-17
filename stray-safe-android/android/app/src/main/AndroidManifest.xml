@@ -29,6 +29,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="straysafe"/>
         <data android:scheme="com.anonymous.straysafe"/>
+        <data android:scheme="exp+stray-safe"/>
       </intent-filter>
     </activity>
   </application>
