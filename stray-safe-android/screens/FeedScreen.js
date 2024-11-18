@@ -13,7 +13,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
-import { usePostContext } from '../context/PostContext'; // Import PostContext
+import { usePostContext } from '../context/PostContext';
 import { theme } from '../theme';
 
 const { width } = Dimensions.get('window');
@@ -126,14 +126,22 @@ export default function FeedScreen() {
               style={styles.modalButton}
               onPress={() => handleOptionSelect('found')}
             >
-              <Ionicons name="paw-outline" size={24} color={theme.colors.primary} />
+              <Ionicons
+                name="paw-outline"
+                size={24}
+                color={theme.colors.primary}
+              />
               <Text style={styles.modalButtonText}>Found</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.modalButton}
               onPress={() => handleOptionSelect('forAdoption')}
             >
-              <Ionicons name="heart-outline" size={24} color={theme.colors.primary} />
+              <Ionicons
+                name="heart-outline"
+                size={24}
+                color={theme.colors.primary}
+              />
               <Text style={styles.modalButtonText}>For Adoption</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -164,7 +172,8 @@ export default function FeedScreen() {
                     comments: item.comments,
                     shares: item.shares,
                     type: item.type,
-                    contactNumber: item.contactNumber || 'No contact number provided',
+                    contactNumber:
+                      item.contactNumber || 'No contact number provided',
                     postContent: item.postContent || 'No content provided.',
                   })
                 }
@@ -173,13 +182,15 @@ export default function FeedScreen() {
                   {item.image && (
                     <Image source={item.image} style={styles.petImage} />
                   )}
-                  <Text style={styles.locationBadge}>{item.location}</Text>
+                  <Text style={styles.locationBadge}>
+                    {item.location?.address || 'No location provided'}
+                  </Text>
                 </View>
               </TouchableOpacity>
               <View style={styles.interactionContainer}>
                 <TouchableOpacity
                   style={styles.interactionButton}
-                  onPress={() => alert('Liked!')} // Placeholder for like functionality
+                  onPress={() => alert('Liked!')}
                 >
                   <Ionicons
                     name="heart-outline"
@@ -242,19 +253,34 @@ export default function FeedScreen() {
           contentContainerStyle={styles.petListVertical}
         />
 
-        {/* "Press Here to Report Pet" Button */}
-        <TouchableOpacity
-          style={styles.reportButton}
-          onPress={handleReportPetPress}
-        >
-          <Ionicons
-            name="heart"
-            size={20}
-            color="#FFF"
-            style={styles.buttonIcon}
-          />
-          <Text style={styles.reportButtonText}>Press Here To Report Pet</Text>
-        </TouchableOpacity>
+        {/* Buttons Section */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.reportButton}
+            onPress={handleReportPetPress}
+          >
+            <Ionicons
+              name="heart"
+              size={20}
+              color="#FFF"
+              style={styles.buttonIcon}
+            />
+            <Text style={styles.reportButtonText}>Post Pet</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.registerButton}
+            onPress={() => navigation.navigate('RegisterPet')}
+          >
+            <Ionicons
+              name="paw-outline"
+              size={20}
+              color="#FFF"
+              style={styles.buttonIcon}
+            />
+            <Text style={styles.registerButtonText}>Register My Pet</Text>
+          </TouchableOpacity>
+        </View>
       </LinearGradient>
     </View>
   );
@@ -373,19 +399,42 @@ const styles = StyleSheet.create({
     marginRight: 10,
     color: theme.colors.textPrimary,
   },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    margin: 20,
+  },
   reportButton: {
+    flex: 1,
     backgroundColor: theme.colors.primary,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 15,
     borderRadius: 30,
-    margin: 20,
+    marginHorizontal: 5,
     elevation: 5,
   },
   reportButtonText: {
     color: '#FFF',
-    fontSize: 16,
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  registerButton: {
+    flex: 1,
+    backgroundColor: theme.colors.orangeAccent,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 15,
+    borderRadius: 30,
+    marginHorizontal: 5,
+    elevation: 5,
+  },
+  registerButtonText: {
+    color: '#FFF',
+    fontSize: 14,
     fontWeight: 'bold',
     marginLeft: 10,
   },

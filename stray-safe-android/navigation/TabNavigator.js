@@ -18,7 +18,8 @@ import MapScreen from '../screens/MapScreen';
 import DashboardScreen from '../screens/DashboardScreen';
 import DetailsScreen from '../screens/DetailsScreen';
 import ReportPetScreen from '../screens/ReportPetScreen';
-import MapPickerScreen from '../screens/MapPickerScreen'; // Import the MapPickerScreen
+import MapPickerScreen from '../screens/MapPickerScreen';
+import RegisterPetScreen from '../screens/RegisterPet'; // New RegisterPet screen
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme';
 
@@ -111,6 +112,15 @@ function FeedStackNavigator() {
         component={ReportPetScreen}
         options={{
           header: () => <CustomHeader />,
+        }}
+      />
+      <Stack.Screen
+        name="RegisterPet"
+        component={RegisterPetScreen}
+        options={{
+          title: 'Register Your Pet',
+          headerStyle: { backgroundColor: theme.colors.primary },
+          headerTintColor: '#FFF',
         }}
       />
       <Stack.Screen

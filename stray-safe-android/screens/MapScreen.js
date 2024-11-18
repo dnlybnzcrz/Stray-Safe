@@ -10,19 +10,22 @@ import {
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
-import { usePostContext } from '../context/PostContext'; // Import PostContext
-import { theme } from '../theme'; // Import the theme object
-
-const strayCatLocations = [
-  { id: '1', latitude: 14.62780260343709, longitude: 121.03551786228103, title: 'Cat 1', description: 'Stray cat spotted here' },
-  { id: '2', latitude: 14.631238713795275, longitude: 121.04116122990891, title: 'Cat 2', description: 'Cat found near the park' },
-  { id: '3', latitude: 14.625975525875248, longitude: 121.0365585593531, title: 'Cat 3', description: 'Cat spotted in the alley' },
-];
+import { usePostContext } from '../context/PostContext';
+import { theme } from '../theme';
 
 export default function MapScreen() {
   const navigation = useNavigation();
-  const { posts } = usePostContext(); // Access posts from PostContext
-  const [userLocation, setUserLocation] = useState(null);
+  const { posts } = usePostContext();
+
+  // Default location: Barangay Sacred Heart, Kamuning, Quezon City
+  const defaultLocation = {
+    latitude: 14.6261,
+    longitude: 121.0423,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  };
+
+  const [userLocation, setUserLocation] = useState(defaultLocation); // Default to Barangay Sacred Heart
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -33,7 +36,7 @@ export default function MapScreen() {
         if (status !== 'granted') {
           Alert.alert(
             'Permission Denied',
-            'Permission to access location was denied'
+            'Permission to access location was denied. Default location will be used.'
           );
           setError('Permission denied');
           return;
@@ -44,11 +47,11 @@ export default function MapScreen() {
         setUserLocation({
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
         });
       } catch (err) {
-        Alert.alert('Error', 'Unable to fetch location');
+        Alert.alert('Error', 'Unable to fetch location. Default location will be used.');
         setError('Location fetch failed');
       }
     })();
@@ -57,22 +60,6 @@ export default function MapScreen() {
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
-
-  if (error) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text>Error: {error}</Text>
-      </View>
-    );
-  }
-
-  if (!userLocation) {
-    return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading map...</Text>
-      </View>
-    );
-  }
 
   // Extract valid locations from posts
   const postLocations = posts
@@ -108,20 +95,9 @@ export default function MapScreen() {
 
       <MapView
         style={styles.map}
-        initialRegion={userLocation}
+        initialRegion={userLocation} // Start with user's location or default
         showsUserLocation={true} // Show the user's current location
       >
-        {/* Display stray cat markers */}
-        {strayCatLocations.map((cat) => (
-          <Marker
-            key={cat.id}
-            coordinate={{ latitude: cat.latitude, longitude: cat.longitude }}
-            title={cat.title}
-            description={cat.description}
-            image={require('../assets/paw-icon.png')} // Use the custom paw icon
-          />
-        ))}
-
         {/* Display user post locations */}
         {postLocations.map((post) => (
           <Marker
@@ -129,7 +105,7 @@ export default function MapScreen() {
             coordinate={{ latitude: post.latitude, longitude: post.longitude }}
             title={post.title}
             description={post.description}
-            pinColor="blue" // Custom pin color for user posts
+            image={require('../assets/paw-icon.png')} // Use the custom paw icon
           />
         ))}
       </MapView>

@@ -8,52 +8,41 @@ import {
   StyleSheet,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { usePostContext } from '../context/PostContext'; // Import the PostContext
+import { useNavigation } from '@react-navigation/native';
 import { theme } from '../theme';
 
-const notifications = [
-  {
-    id: '1',
-    title: 'Missing Pet Alert',
-    description: 'A dog was reported missing near Scout Limbaga St.',
-    timestamp: '2 hours ago',
-    icon: require('../assets/warning.png'), // Replace with your icon
-  },
-  {
-    id: '2',
-    title: 'New Pet Found',
-    description: 'A stray cat was found near K-1st St.',
-    timestamp: '4 hours ago',
-    icon: require('../assets/found.png'), // Replace with your icon
-  },
-  {
-    id: '3',
-    title: 'Adoption Request',
-    description: 'A user is interested in adopting a pet from Sct. Delgado St.',
-    timestamp: '1 day ago',
-    icon: require('../assets/warning.png'), // Replace with your icon
-  },
-  {
-    id: '4',
-    title: 'Lost Pet Found',
-    description: 'A missing dog from K-2nd St. has been found.',
-    timestamp: '3 days ago',
-    icon: require('../assets/warning.png'), // Replace with your icon
-  },
-];
-
 export default function NotificationsScreen() {
+  const { notifications } = usePostContext(); // Access notifications from context
+  const navigation = useNavigation(); // Navigation hook
+
+  const handleNotificationClick = (post) => {
+    // Navigate to the DetailsScreen with post data
+    navigation.navigate('Details', {
+      image: post.image,
+      location: post.location,
+      likes: post.likes,
+      comments: post.comments,
+      shares: post.shares,
+      type: post.type,
+      contactNumber: post.contactNumber || 'No contact number provided',
+      postContent: post.postContent || 'No content provided.',
+    });
+  };
+
   const renderNotification = ({ item }) => (
-    <View style={styles.notificationCard}>
+    <TouchableOpacity
+      style={styles.notificationCard}
+      onPress={() => handleNotificationClick(item.post)} // Navigate on click
+    >
       <Image source={item.icon} style={styles.notificationIcon} />
       <View style={styles.notificationContent}>
         <Text style={styles.notificationTitle}>{item.title}</Text>
         <Text style={styles.notificationDescription}>{item.description}</Text>
         <Text style={styles.notificationTimestamp}>{item.timestamp}</Text>
       </View>
-      <TouchableOpacity style={styles.actionButton}>
-        <Ionicons name="arrow-forward-outline" size={20} color="#FFF" />
-      </TouchableOpacity>
-    </View>
+      <Ionicons name="arrow-forward-outline" size={20} color={theme.colors.primary} />
+    </TouchableOpacity>
   );
 
   return (
@@ -94,7 +83,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     marginRight: 15,
-    borderRadius: 20,
+    
   },
   notificationContent: {
     flex: 1,
@@ -113,12 +102,5 @@ const styles = StyleSheet.create({
   notificationTimestamp: {
     fontSize: 12,
     color: theme.colors.textSecondary,
-  },
-  actionButton: {
-    backgroundColor: theme.colors.primary,
-    borderRadius: 20,
-    padding: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

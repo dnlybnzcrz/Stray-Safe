@@ -11,7 +11,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../theme'; // Import your theme for consistent styling
 
 export default function DetailsScreen({ route }) {
-  // Extract the item passed through navigation
   const {
     image,
     location,
@@ -64,18 +63,8 @@ export default function DetailsScreen({ route }) {
 
       {/* Interactions Section */}
       <View style={styles.interactionsContainer}>
-        <View style={styles.interactionItem}>
-          <Ionicons name="heart" size={24} color={theme.colors.primary} />
-          <Text style={styles.interactionText}>{likes} Likes</Text>
-        </View>
-        <View style={styles.interactionItem}>
-          <Ionicons
-            name="share-social-outline"
-            size={24}
-            color={theme.colors.primary}
-          />
-          <Text style={styles.interactionText}>{shares} Shares</Text>
-        </View>
+        <Text style={styles.text}>Likes: {likes}</Text>
+        <Text style={styles.text}>Shares: {shares}</Text>
       </View>
 
       {/* Comments Section */}
@@ -83,14 +72,9 @@ export default function DetailsScreen({ route }) {
         <Text style={styles.sectionTitle}>Comments</Text>
         {comments?.length ? (
           comments.map((comment, index) => (
-            <View key={index} style={styles.commentItem}>
-              <Ionicons
-                name="person-circle-outline"
-                size={20}
-                color={theme.colors.textPrimary}
-              />
-              <Text style={styles.commentText}>{comment}</Text>
-            </View>
+            <Text key={index} style={styles.comment}>
+              - {comment}
+            </Text>
           ))
         ) : (
           <Text style={styles.noCommentsText}>No comments yet.</Text>
@@ -122,8 +106,8 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 300,
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    borderRadius: 10,
+    marginBottom: 20,
   },
   postType: {
     position: 'absolute',
@@ -164,32 +148,21 @@ const styles = StyleSheet.create({
     color: theme.colors.textSecondary,
   },
   interactionsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 20,
+    padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.highlight,
   },
-  interactionItem: {
-    alignItems: 'center',
-  },
-  interactionText: {
-    marginTop: 5,
+  text: {
     fontSize: 16,
-    color: theme.colors.textPrimary,
+    marginBottom: 10,
   },
   commentsContainer: {
     padding: 20,
   },
-  commentItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  commentText: {
-    marginLeft: 10,
+  comment: {
     fontSize: 14,
-    color: theme.colors.textSecondary,
+    color: '#555',
+    marginLeft: 10,
   },
   noCommentsText: {
     fontSize: 14,
