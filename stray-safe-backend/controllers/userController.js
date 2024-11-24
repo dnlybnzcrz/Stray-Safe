@@ -2,17 +2,17 @@ const { use } = require("../routes/userRoutes");
 
 const signup = async (req, res) => {
   const database = req.database;
-  const { username, email, contact_number, password, } = req.body;
+  const { username, email, contact_no, password, } = req.body;
 
-  if (!username || !email || !contact_number || !password) {
+  if (!username || !email || !contact_no || !password) {
     res.status(400).send('Invalid Request');
     return;
   }
 
   database.query(`
-        INSERT INTO users (username, password, email, contact_no, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, ? )`,
-    [username, password, email, contact_number, new Date(), new Date()],
+        INSERT INTO users (username, password, email, contact_no, created_at) 
+        VALUES (?, ?, ?, ?, ? )`,
+    [username, password, email, contact_no, new Date()],
     (error, results) => {
 
       if (error) {
