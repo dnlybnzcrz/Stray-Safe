@@ -1,44 +1,40 @@
 const express = require('express');
-const mysql = require('mysql2');
-const dotenv = require('dotenv');
-const cors = require('cors');
+const MySQL = require('mysql2');
 const fs = require('fs');
+const dotenv = require('dotenv');
+const app = express();
 
 dotenv.config();
 
-const app = express();
-const userRouter = require('./routes/userRoutes');
-
-app.listen(process.env.PORT, () => {
-	console.log(`Server running on port ${process.env.PORT}`)
-});
-
-const database = mysql.createConnection({
-	host: process.env.HOST,
-	user: process.env.USER,
-	password: process.env.PASS,
-	database: process.env.DATABASE,
-	ssl: {
-		cs: fs.readFileSync('DigiCertGlobalRootCA.crt.pem')
-	}
+const database = MySQL.createConnection({
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASS,
+  database: process.env.DATABASE,
+  ssl: {
+    ca: fs.readFileSync('DigiCertGlobalRootCA.crt.pem'),
+    rejectUnauthorized: true
+  }
 });
 
 database.connect((err) => {
-	if (err) {
-		console.log("Error connecting to db");
-	} else {
-		console.log("Connected to db");
-	}
-})
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('Connected to database');
+  }
+});
 
-app.use(cors({ origin: "*", credentials: true }))
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
 	req.database = database;
 	next();
-})
+});
 
-app.use('/api/user', userRouter);
-app.get('/', (req, res) => {
-	res.send('Hello World');
+// Routes
+app.use('/api/user', require('./routes/userRoutes'));
+
+app.listen(3000, () => {
+	console.log('Server is running on port 3000');
 });
