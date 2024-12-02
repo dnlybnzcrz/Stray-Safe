@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, ImageBackground, Image } from "react-native";
+import { useNavigation } from "@react-navigation/core";
 
 import { color } from '@/assets/theme';
 import styles from '@/assets/styles';
 import illustration from '@/assets/images/common/illustration.png';
 import wallpaper3 from '../assets/images/common/wallpaper3.jpg';
 import logo from '@/assets/images/common/logo.png';
-import { useRouter } from "expo-router";
 
 export default function SignUp() {
-  const router = useRouter();
+  const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [contactNo, setContactNo] = useState('');
@@ -25,14 +25,14 @@ export default function SignUp() {
         password: password
       }
 
-      router.navigate('')
+      navigation.navigate('home');
     } catch (error) {
       console.error(error);
     }
   }
 
   const handleLogin = () => {
-    router.navigate('login');
+    navigation.navigate('login');
   }
 
   return <ImageBackground source={wallpaper3} style={styles.ImageBackground}>

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Text, View, Dimensions, StatusBar, FlatList, Image, TouchableOpacity, ImageBackground } from 'react-native';
-import { Link, useRouter } from 'expo-router';
 import styles from '@/assets/styles';
+import { useNavigation } from '@react-navigation/core';
 
 import * as images from '@/assets/images/welcome';
 import linearGradient from '@/assets/images/common/linear-gradient.png';
@@ -21,8 +21,8 @@ const imageArray = [
   images.welcome10,
 ];
 
-export default function Index() {
-  const router = useRouter();
+export default function HomeScreen() {
+  const navigation = useNavigation();
   const [renderIndex, setRenderIndex] = useState(0);
   const flatListRef = useRef(null);
 
@@ -39,11 +39,11 @@ export default function Index() {
   }, []);
 
   const onSignUp = () => {
-    router.push('/signup');
+    navigation.navigate('signup');
   }
 
   const onSignIn = () => {
-    router.push('/login');
+    navigation.navigate('login');
   }
 
   return (

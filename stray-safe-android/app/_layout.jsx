@@ -1,17 +1,23 @@
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { NavigationContainer, NavigationIndependentTree } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { useFonts } from 'expo-font';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-import screenHeader from '@/components/ScreenHeader';
+import HomeScreen from '@/pages/HomeScreen';
+import LoginScreen from '@/pages/LoginScreen';
+import SignupScreen from '@/pages/SignupScreen';
+import FeedScreen from '@/pages/FeedScreen';
+import FoundScreen from '@/pages/FoundScreen';
+import AdoptScreen from '@/pages/AdoptScreen';
 
-SplashScreen.preventAutoHideAsync();
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
@@ -26,12 +32,31 @@ export default function RootLayout() {
     return null;
   }
 
+  const handleLogin = (state) => {
+    console.log('handleLogin', state);
+    setIsLoggedIn(state);
+  }
+
   return (
-    <Stack screenOptions={screenHeader}>
-      <Stack.Screen name="index" options={{ headerShown: false }}/>
-      <Stack.Screen name="login" options={{ headerShown: false }} />
-      <Stack.Screen name="signup" options={{ headerShown: false }} />
-      <Stack.Screen name="feed" />
-    </Stack>
+    <NavigationIndependentTree>
+      <NavigationContainer>
+        {!isLoggedIn ? (
+          <Stack.Navigator initialRouteName="home">
+            <Stack.Screen name="home" component={HomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name="login" options={{ headerShown: false }}>
+              {(props) => <LoginScreen {...props} onLogin={handleLogin} />}
+            </Stack.Screen>
+            <Stack.Screen name="signup" component={SignupScreen} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        ) : (
+          <Drawer.Navigator>
+            <Drawer.Screen name="feed" component={FeedScreen} options={{ headerShown: false }} />
+            <Drawer.Screen name="found" component={FoundScreen} options={{ headerShown: false }} />
+            <Drawer.Screen name="adopt" component={AdoptScreen} options={{ headerShown: false }} />
+          </Drawer.Navigator>
+        )}
+      </NavigationContainer>
+    </NavigationIndependentTree>
   );
 }
+

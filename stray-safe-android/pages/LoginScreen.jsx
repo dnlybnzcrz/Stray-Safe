@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/core';
 import { Text, TextInput, View, Image, ImageBackground, TouchableOpacity } from 'react-native';
 
 import { color } from '@/assets/theme';
@@ -8,10 +8,10 @@ import illustration from '@/assets/images/common/illustration.png';
 import wallpaper3 from '../assets/images/common/wallpaper3.jpg';
 import logo from '@/assets/images/common/logo.png';
 
-export default function LoginScreen() {
+export default function LoginScreen({ onLogin }) {
+  const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter();
 
   const handleLogin = () => {
     const requestData = {
@@ -19,11 +19,12 @@ export default function LoginScreen() {
       password: password
     }
 
-    router.navigate('feed');
+    onLogin(true)
+    navigation.navigate('home');
   }
 
   const handleSignUp = () => {
-    router.navigate('signup');
+    navigation.navigate('signup');
   }
 
   return (
