@@ -1,19 +1,27 @@
-import { Text, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View, Modal } from "react-native";
 import { useNavigation } from "@react-navigation/core";
 
 import CustomNavigation from "@/components/CustomNavigation";
-import MissingCard from "@/components/MissingCard";
+import SelectPost from "@/components/SelectPost";
+import PetCard from "@/components/PetCard";
 
 export default function FeedScreen() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    return <CustomNavigation>
-        <View style={{ width: "100%", justifyContent: 'center', alignItems: 'center', paddingBottom: 16 }}>
-            <MissingCard />
-            <MissingCard />
-            <MissingCard />
-            <MissingCard />
-            <MissingCard />
+  return <CustomNavigation>
+    <View style={{ flex: 1 }}>
+      <ScrollView>
+        <View style={{ width: "100%", justifyContent: "center", alignItems: "center", paddingBottom: 16, position: "relative" }} >
+          <PetCard />
+          <PetCard />
+          <PetCard />
+          <PetCard />
+          <PetCard />
         </View>
-    </CustomNavigation>
+      </ScrollView>
+    </View>
+
+    {/* Add Post Button */}
+    <SelectPost navigation={navigation}/>
+  </CustomNavigation>
 }

@@ -16,8 +16,14 @@ const styles = StyleSheet.create({
   tabContainer: { flexDirection: 'row', justifyContent: 'space-around', backgroundColor: color.accent },
   tabButton: { alignItems: 'center', justifyContent: 'center', flex: 1 },
 
-  missingCard: { backgroundColor: "white",  alignSelf: 'stretch', overflow: 'hidden', borderRadius: 16, marginHorizontal: 16, marginTop: 16, flex: 1 },
-  missingPhoto: { width: '100%',  height: 220,  borderRadius: 8 }
+  petCard: { backgroundColor: "white",  alignSelf: 'stretch', overflow: 'hidden', borderRadius: 16, marginHorizontal: 16, marginTop: 16, flex: 1 },
+  petPhoto: { width: '100%',  height: 220,  borderRadius: 8 },
+
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' },
+  modalContainer: { width: '80%', backgroundColor: '#FFF', borderRadius: 10, padding: 20, alignItems: 'center' },
+  modalTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 20, color: color.black },
+  modalButton: { flexDirection: 'row', alignItems: 'center', marginVertical: 10, padding: 10, width: '100%', justifyContent: 'center', backgroundColor: color.beige, borderRadius: 10 },
+  modalButtonText: { fontSize: 16, marginLeft: 10, color: color.black },
 })
 
 export default styles;

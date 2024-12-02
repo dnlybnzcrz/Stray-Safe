@@ -59,9 +59,9 @@ export default function CustomNavigation({ children }) {
         </View>
 
         {/* Content */}
-        <ScrollView style={[ styles.content, { flex: 1 }]}>
+        <View style={[ styles.content, { flex: 1 }]}>
           {children}
-        </ScrollView>
+        </View>
 
         {/* Bottom Navigation */}
         <View style={{ marginTop: 'auto', borderTopWidth: 1, borderTopColor: '#ccc', padding: 10, alignItems: 'center' }}>

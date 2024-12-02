@@ -5,7 +5,9 @@ const color = {
     textSecondary: '#5A5A5A',
     black: "#000",
     white: "#fff",
-    blue: "#A8DADC"
+    blue: "#A8DADC",
+
+    beige: "#FAF4EB"
 }
 
 export { color };

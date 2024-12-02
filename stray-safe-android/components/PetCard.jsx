@@ -11,10 +11,10 @@ const post = {
   like: 3,
 }
 
-export default function MissingCard() {
-  return <View style={styles.missingCard}>
+export default function PetCard() {
+  return <View style={styles.petCard}>
     <View style={{ padding: 12, borderBottomWidth: 1 }}>
-      <Image source={missing1} style={styles.missingPhoto}></Image>
+      <Image source={missing1} style={styles.petPhoto}></Image>
     </View>
     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: 12, paddingLeft: 64, paddingRight: 64 }}>
       <TouchableOpacity style={{ display: 'flex', flexDirection: 'row' }}>
