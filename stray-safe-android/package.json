@@ -15,7 +15,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@expo/vector-icons": "^14.0.2",
+    "@expo/vector-icons": "^14.0.4",
     "@react-navigation/bottom-tabs": "^7.0.0",
     "@react-navigation/core": "^7.2.1",
     "@react-navigation/drawer": "^7.0.17",

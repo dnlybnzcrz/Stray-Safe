@@ -6,10 +6,14 @@ import MissingCard from "@/components/MissingCard";
 
 export default function FeedScreen() {
     const navigation = useNavigation();
-    
+
     return <CustomNavigation>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <MissingCard/>
+        <View style={{ width: "100%", justifyContent: 'center', alignItems: 'center', paddingBottom: 16 }}>
+            <MissingCard />
+            <MissingCard />
+            <MissingCard />
+            <MissingCard />
+            <MissingCard />
         </View>
     </CustomNavigation>
 }
