@@ -6,20 +6,20 @@ import SelectPost from "@/components/SelectPost";
 import PetCard from "@/components/PetCard";
 
 export default function FoundScreen() {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
 
-    return <CustomNavigation>
-        <View style={{ flex: 1 }}>
-            <ScrollView>
-                <PetCard />
-                <PetCard />
-                <PetCard />
-                <PetCard />
-                <PetCard />
-            </ScrollView>
-        </View>
+  return <CustomNavigation>
+    <View style={{ flex: 1, paddingBottom: 16 }}>
+      <ScrollView>
+        <PetCard />
+        <PetCard />
+        <PetCard />
+        <PetCard />
+        <PetCard />
+      </ScrollView>
+    </View>
 
-        {/* Add Post Button */}
-        <SelectPost navigation={navigation} />
-    </CustomNavigation>
+    {/* Add Post Button */}
+    <SelectPost navigation={navigation} />
+  </CustomNavigation>
 }

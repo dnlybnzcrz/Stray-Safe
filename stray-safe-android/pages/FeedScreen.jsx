@@ -9,19 +9,17 @@ export default function FeedScreen() {
   const navigation = useNavigation();
 
   return <CustomNavigation>
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, paddingBottom: 16 }}>
       <ScrollView>
-        <View style={{ width: "100%", justifyContent: "center", alignItems: "center", paddingBottom: 16, position: "relative" }} >
           <PetCard />
           <PetCard />
           <PetCard />
           <PetCard />
           <PetCard />
-        </View>
       </ScrollView>
     </View>
 
     {/* Add Post Button */}
-    <SelectPost navigation={navigation}/>
+    <SelectPost navigation={navigation} />
   </CustomNavigation>
 }
