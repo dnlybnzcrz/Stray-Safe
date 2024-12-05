@@ -64,7 +64,7 @@ export default function CustomNavigation({ children }) {
         </View>
 
         {/* Bottom Navigation */}
-        <View style={{ marginTop: 'auto', borderTopWidth: 1, borderTopColor: '#ccc', padding: 10, alignItems: 'center' }}>
+        <View style={{ backgroundColor: color.white, marginTop: 'auto', borderTopWidth: 1, borderTopColor: '#ccc', padding: 10, alignItems: 'center' }}>
           <TouchableOpacity>
             <Text>Test</Text>
           </TouchableOpacity>

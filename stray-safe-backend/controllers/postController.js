@@ -2,8 +2,6 @@ const createPost = async (req, res) => {
   const database = req.database;
   const { user_id, type, content, location, image_ids } = req.body;
 
-  console.log('Request body:', req.body);
-
   if (!user_id || !type || !content) {
     return res.status(400).json({ error: 'Missing fields found' });
   }
@@ -47,6 +45,7 @@ const createPost = async (req, res) => {
 
 const getPosts = async (req, res) => {
   const database = req.database;
+  const { type } = req.body;
 
   try {
     database.query(`
@@ -65,9 +64,11 @@ const getPosts = async (req, res) => {
         post_images ON posts.post_id = post_images.post_id
       LEFT JOIN
         images ON post_images.image_id = images.image_id
+      WHERE
+        posts.post_type = ?
       ORDER BY
         posts.created_at DESC
-      LIMIT 10;`, (error, result) => {
+      LIMIT 10;`, [type], (error, result) => {
         if (error) {
           console.error('Failed to fetch posts:', error);
           return res.status(401).json({ error: 'Failed to fetch posts' });

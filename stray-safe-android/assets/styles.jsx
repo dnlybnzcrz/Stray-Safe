@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   tabContainer: { flexDirection: 'row', justifyContent: 'space-around', backgroundColor: color.accent },
   tabButton: { alignItems: 'center', justifyContent: 'center', flex: 1 },
 
-  petCard: { backgroundColor: "white",  alignSelf: 'stretch', overflow: 'hidden', borderRadius: 16, marginHorizontal: 16, marginTop: 16, flex: 1 },
+  petCard: { backgroundColor: "white",  alignSelf: 'stretch', overflow: 'hidden', borderRadius: 16, marginHorizontal: 16, marginTop: 16 },
   petPhoto: { width: '100%',  height: 220,  borderRadius: 8 },
 
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' },

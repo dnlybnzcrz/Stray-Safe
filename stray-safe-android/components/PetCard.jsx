@@ -49,7 +49,6 @@ export default function PetCard({ post = unkownData }) {
               {post.content}
             </Text>
           </View>
-
         </View>
         <Image source={ displayImage == null ? missing1 : {uri: displayImage} } style={styles.petPhoto}></Image>
       </View>

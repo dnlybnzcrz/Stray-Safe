@@ -3,9 +3,13 @@ import axios from "axios";
 
 const API_URL = process.env.EXPO_PUBLIC_LOCAL_API_URL;
 
-const getPosts = async () => {
+const getPosts = async ( type ) => {
+  const requestData = {
+    type: type
+  }
+
   try {
-    const response = await axios.get(`${API_URL}/api/post/get`);
+    const response = await axios.post(`${API_URL}/api/post/get`, requestData);
 
     return response.data;
   } catch (error) {
