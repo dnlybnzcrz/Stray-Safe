@@ -15,19 +15,19 @@ export default function SelectPost({ navigation }) {
   const handleMissingSelect = () => {
     setIsModalVisible(false)
 
-    navigation.navigate('missing')
+    navigation.navigate('report', { type: 'missing' })
   }
 
   const handleFoundSelect = () => {
     setIsModalVisible(false)
 
-    navigation.navigate('found')
+    navigation.navigate('report', { type: 'found' })
   }
 
   const handleAdoptionSelect = () => {
     setIsModalVisible(false)
 
-    navigation.navigate('adopt')
+    navigation.navigate('report', { type: 'adoption' })
   }
 
   return <View>

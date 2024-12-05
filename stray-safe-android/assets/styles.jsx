@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 
   container: { flex: 1, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 20 },
   content: { backgroundColor: color.blue },
-  card: { width: '85%', backgroundColor: '#FFF', borderRadius: 20, padding: 20, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 5, elevation: 5 },
+  card: { width: '90%', backgroundColor: '#FFF', borderRadius: 20, padding: 20, alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.2, shadowRadius: 5, elevation: 5 },
   logo: { width: '90%', height: 70, resizeMode: 'contain', margin: 20 },
   smallLogo: { width: 50, height: 50, resizeMode: 'contain', margin: 20 },
 
@@ -24,6 +24,138 @@ const styles = StyleSheet.create({
   modalTitle: { fontSize: 18, fontWeight: 'bold', marginBottom: 20, color: color.black },
   modalButton: { flexDirection: 'row', alignItems: 'center', marginVertical: 10, padding: 10, width: '100%', justifyContent: 'center', backgroundColor: color.beige, borderRadius: 10 },
   modalButtonText: { fontSize: 16, marginLeft: 10, color: color.black },
+
+  addMediaButton: { flexDirection: 'row', alignItems: 'center', marginTop: 10, backgroundColor: color.accent, paddingVertical: 10, paddingHorizontal: 15, borderRadius: 10, justifyContent: 'center'},
+  locationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    marginTop: 10,
+    borderRadius: 16,
+    width: '100%',
+  },
+  locationContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  locationText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: color.accent,
+  },
+  locationButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    marginTop: 10,
+  },
+  locationContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  locationText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: color.accent,
+  },
+  contactRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+    paddingVertical: 10,
+  },
+  contactInput: {
+    flex: 1,
+    fontSize: 16,
+    marginLeft: 10,
+    color: color.black,
+  },
+  mapContainer: {
+    flex: 1,
+  },
+  map: {
+    flex: 1,
+  },
+  pinContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginLeft: -20,
+    marginTop: -40,
+  },
+  confirmButton: {
+    position: 'absolute',
+    bottom: 20,
+    left: '10%',
+    right: '10%',
+    backgroundColor: color.accent,
+    padding: 15,
+    borderRadius: 30,
+    alignItems: 'center',
+  },
+  confirmButtonText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  closeMapButton: {
+    position: 'absolute',
+    top: 40,
+    right: 20,
+    backgroundColor: color.accent,
+    padding: 10,
+    borderRadius: 30,
+  },
+  pawIcon: {
+    width: 50,
+    height: 100,
+  },
+  pinContainer: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginLeft: -20,
+    marginTop: -40,
+  },
+
+  mediaContainer: {
+    flexDirection: 'row',
+    marginRight: "auto",
+    marginTop: 20
+  },
+  mediaWrapper: {
+    position: 'relative',
+    marginRight: 10,
+  },
+  mediaPreview: {
+    width: 120,
+    height: 120,
+    borderRadius: 10,
+  },
+  removeMediaButton: {
+    position: 'absolute',
+    top: 5,
+    right: 5,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 15,
+    padding: 5,
+  },
+  addMediaButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+    backgroundColor: color.accent,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    justifyContent: 'center',
+  },
+  addMediaText: {
+    marginLeft: 10,
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 })
 
 export default styles;

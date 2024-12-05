@@ -23,7 +23,6 @@ const signup = async (req, res) => {
           message: 'User created successfully'
         });
       }
-
     });
 }
 

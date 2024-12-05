@@ -11,7 +11,7 @@ import SignupScreen from '@/pages/SignupScreen';
 import FeedScreen from '@/pages/FeedScreen';
 import FoundScreen from '@/pages/FoundScreen';
 import AdoptScreen from '@/pages/AdoptScreen';
-import TestScreen from '@/pages/TestScreen';
+import ReportScreen from '@/pages/ReportScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -54,7 +54,7 @@ export default function RootLayout() {
             <Drawer.Screen name="feed" component={FeedScreen} />
             <Drawer.Screen name="found" component={FoundScreen} />
             <Drawer.Screen name="adopt" component={AdoptScreen} />
-            <Drawer.Screen name="missing" component={TestScreen} />
+            <Drawer.Screen name="report" component={ReportScreen} />
           </Drawer.Navigator>
         )}
       </NavigationContainer>
