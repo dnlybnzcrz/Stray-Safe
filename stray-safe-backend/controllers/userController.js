@@ -2,28 +2,27 @@ const { use } = require("../routes/userRoutes");
 
 const signup = async (req, res) => {
   const database = req.database;
-  const { username, email, contact_number, password, } = req.body;
-
-  if (!username || !email || !contact_number || !password) {
+  const { username, email, contact_no, password, } = req.body;
+  console.log(req.body)
+  if (!username || !email || !contact_no || !password) {
     res.status(400).send('Invalid Request');
     return;
   }
 
   database.query(`
-        INSERT INTO users (username, password, email, contact_no, created_at, updated_at) 
-        VALUES (?, ?, ?, ?, ?, ? )`,
-    [username, password, email, contact_number, new Date(), new Date()],
+        INSERT INTO users (username, password, email, contact_no, created_at) 
+        VALUES (?, ?, ?, ?, ? )`,
+    [username, password, email, contact_no, new Date().toISOString().slice(0, 19).replace('T', ' ')],
     (error, results) => {
 
       if (error) {
         console.error('Error executing MySQL query', error);
-        res.status(500.).send('Internal Server Error');
+        res.status(500).send('Internal Server Error');
       } else {
         res.send({
           message: 'User created successfully'
         });
       }
-
     });
 }
 

@@ -392,8 +392,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   pawIcon: {
-    width: 50,
-    height: 100,
+    width: 40,
+    height: 40,
   },
   pinContainer: {
     position: 'absolute',

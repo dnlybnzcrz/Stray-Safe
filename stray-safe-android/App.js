@@ -18,7 +18,7 @@ export default function App() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setIsLoggedIn(true); // Simulate successful login
+      setIsLoggedIn(true); 
     }, 2000);
   };
 
@@ -32,7 +32,6 @@ export default function App() {
 
   return (
     <PostProvider>
-      {/* Wrap the entire app in the PostProvider */}
       <NavigationContainer>
         {isLoggedIn ? (
           <DrawerNavigator />
